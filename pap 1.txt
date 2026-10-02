@@ -1,0 +1,55 @@
+#include<stdio.h>
+#include<string.h>
+
+#define MAX_EMPLOYEES 50
+
+typedef struct {
+    char id[20];
+    char name[50];
+    char department[50];
+    double basic_salary;
+    double housing_allowance;
+    double transport_allowance;
+    double gross_salary;
+} Employee;
+
+
+void addEmployee(Employee employees[], int *count);
+void displayEmployees(const Employee employees[], int count);
+void searchEmployee(const Employee employees[], int count);
+double calculateSalary(Employee *emp);
+void employeeMenu(Employee employees[], int *count);
+
+int main() {
+    Employee employees[MAX_EMPLOYEES];
+    int employee_count = 0;
+
+    printf("Employee Management System\n");
+
+    
+    employeeMenu(employees, &employee_count);
+
+    return 0;
+}
+
+
+double calculateSalary(Employee *emp) {
+    emp->gross_salary = emp->basic_salary + emp->housing_allowance + emp->transport_allowance;
+    return emp->gross_salary;
+}
+
+void addEmployee(Employee employees[], int *count) {
+
+}
+
+void displayEmployees(const Employee employees[], int count) {
+    
+}
+
+void searchEmployee(const Employee employees[], int count) {
+    
+}
+
+void employeeMenu(Employee employees[], int *count) {
+    printf("Menu loaded successfully.\n");
+}

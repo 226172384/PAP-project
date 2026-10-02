@@ -1,0 +1,147 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_EMPLOYEES 50
+
+typedef struct {
+char id[20];
+char name[50];
+char department[50];
+double basic_salary;
+double housing_allowance;
+double transport_allowance;
+double gross_salary;
+} Employee;
+
+// Function prototypes
+void addEmployee(Employee employees[], int *count);
+void displayEmployees(const Employee employees[], int count);
+void searchEmployee(const Employee employees[], int count);
+double calculateSalary(Employee *emp);
+void employeeMenu(Employee employees[], int *count);
+
+int main(void) {
+Employee employees[MAX_EMPLOYEES];
+int count = 0;
+
+printf("     Employee Management System    \n");
+
+employeeMenu(employees, &count);
+
+return 0;
+}
+
+double calculateSalary(Employee *emp) {
+if (emp != NULL) {
+emp->gross_salary = emp->basic_salary + emp->housing_allowance + emp->transport_allowance;
+return emp->gross_salary;
+}
+return 0.0;
+}
+
+void addEmployee(Employee employees[], int *count) {
+if (*count >= MAX_EMPLOYEES) {
+printf("\nError: Maximum employee capacity reached.\n");
+return;
+}
+
+Employee *emp = &employees[*count];
+
+printf("\n--- Add New Employee ---\n");
+printf("Enter Employee ID: ");
+scanf("%19s", emp->id);
+
+printf("Enter Name: ");
+scanf("%49s", emp->name);
+
+printf("Enter Department: ");
+scanf("%49s", emp->department);
+
+printf("Enter Basic Salary: ");
+scanf("%lf", &emp->basic_salary);
+
+printf("Enter Housing Allowance: ");
+scanf("%lf", &emp->housing_allowance);
+
+printf("Enter Transport Allowance: ");
+scanf("%lf", &emp->transport_allowance);
+
+calculateSalary(emp);
+(*count)++;
+
+printf("Employee added successfully! Gross Salary: $%.2f\n", emp->gross_salary);
+}
+
+void displayEmployees(const Employee employees[], int count) {
+if (count == 0) {
+printf("\nNo employee records found.\n");
+return;
+}
+
+printf("\n--- Employee Records (%d) ---\n", count);
+for (int i = 0; i < count; i++) {
+printf("ID: %s | Name: %s | Dept: %s | Gross Salary: $%.2f\n",
+employees[i].id,
+employees[i].name,
+employees[i].department,
+employees[i].gross_salary);
+}
+}
+
+void searchEmployee(const Employee employees[], int count) {
+if (count == 0) {
+printf("\nNo employee records found.\n");
+return;
+}
+
+char search_id[20];
+printf("\nEnter Employee ID to search: ");
+scanf("%19s", search_id);
+
+for (int i = 0; i < count; i++) {
+if (strcmp(employees[i].id, search_id) == 0) {
+printf("\n--- Employee Found ---\n");
+printf("ID: %s\nName: %s\nDepartment: %s\nBasic Salary: $%.2f\nHousing: $%.2f\nTransport: $%.2f\nGross Salary: $%.2f\n",
+employees[i].id, employees[i].name, employees[i].department,
+employees[i].basic_salary, employees[i].housing_allowance,
+employees[i].transport_allowance, employees[i].gross_salary);
+return;
+}
+}
+
+printf("\nEmployee with ID %s not found.\n", search_id);
+}
+
+void employeeMenu(Employee employees[], int *count) {
+int choice = 0;
+
+while (choice != 4) {
+printf("\n1. Add Employee\n");
+printf("2. Display All Employees\n");
+printf("3. Search Employee\n");
+printf("4. Exit\n");
+printf("Enter your choice: ");
+
+if (scanf("%d", &choice) != 1) {
+break;
+}
+
+switch (choice) {
+case 1:
+addEmployee(employees, count);
+break;
+case 2:
+displayEmployees(employees, *count);
+break;
+case 3:
+searchEmployee(employees, *count);
+break;
+case 4:
+printf("Exiting program...\n");
+break;
+default:
+printf("Invalid choice. Please try again.\n");
+}
+}
+}
